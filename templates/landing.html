@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CivicConnect – Landing Page</title>
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: top 0.5s ease, opacity 0.5s ease;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 600;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 700px;
+            padding: 2rem;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-content button {
+            padding: 0.8rem 1.8rem;
+            background: #fff;
+            color: #0078D4;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .hero-content button:hover {
+            background: #e0f7fa;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Canvas Animation */
+        #animation-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+  <div class="landing-container">
+    <canvas id="bgCanvas"></canvas>
+    <div class="logo-wrapper" onclick="redirectToHome()" title="Click to enter">
+      <img src="cc-logo.png" alt="CivicConnect Logo" class="animated-logo" />
+    </div>
+    <h1>Welcome to CivicConnect – Ghaziabad Edition</h1>
+    <footer>Empowering citizens, holding localities accountable.</footer>
+  </div>
+
+  <script>
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+
+    const canvas = document.getElementById("bgCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let mouse = { x: null, y: null };
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    let particles = [];
+    const particleCount = 120;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00bcd4"; // teal particles
+
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+        if (mouse.x && mouse.y) {
+          const dist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / 120})`; // white connecting lines
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+  </script>
+</body>
+</html>

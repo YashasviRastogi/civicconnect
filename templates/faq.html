@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CivicConnect – FAQ</title>
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: top 0.5s ease, opacity 0.5s ease;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 600;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 700px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-content button {
+            padding: 0.8rem 1.8rem;
+            background: #fff;
+            color: #0078D4;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .hero-content button:hover {
+            background: #e0f7fa;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* FAQ Section */
+        #faq-main {
+            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .faq-item:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .faq-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .faq-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .faq-item:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .faq-item:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-6px);
+        }
+
+        .faq-question {
+            background: linear-gradient(to right, #0078D4, #00B4D8);
+            color: #fff;
+            padding: 1.5rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            display: none;
+        }
+
+        .faq-answer p {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <div class="nav-left">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="report.html">Report Issue</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="hallofshame.html">Hall of Shame</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="nav-center logo">CivicConnect</div>
+      <div class="nav-right">
+        <div class="emoji-icon" id="emoji" title="Feeling good!">🙂</div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero-section">
+    <div class="hero-content">
+      <h1>Frequently Asked Questions</h1>
+      <p>Find answers to common questions about CivicConnect, reporting issues, and how we work to empower communities.</p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq-section">
+    <h2>General Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">What is CivicConnect?</div>
+      <div class="faq-answer">
+        CivicConnect is a platform designed to help citizens report civic issues in their locality, track progress, and stay engaged with community improvements.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I report an issue?</div>
+      <div class="faq-answer">
+        You can report an issue by visiting the "Report Issue" page, filling out the form with details such as locality, area, status, and description, and submitting it.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is there a cost to use CivicConnect?</div>
+      <div class="faq-answer">
+        No, CivicConnect is completely free to use for all citizens. Our goal is to make civic engagement accessible to everyone.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I track the progress of my reported issue?</div>
+      <div class="faq-answer">
+        Yes, once you submit an issue, it will appear in the Issues Feed. You can track its progress as "Not Resolved," "Working," or "Resolved."
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Do I need to create an account?</div>
+      <div class="faq-answer">
+        Currently, you can report issues without creating an account. However, future updates may include optional accounts for personalized tracking.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How does CivicConnect ensure issues are addressed?</div>
+      <div class="faq-answer">
+        We collaborate with local authorities and community volunteers to ensure reported issues are visible and prioritized for resolution.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I share issues on social media?</div>
+      <div class="faq-answer">
+        Yes, each issue card includes options to share on social platforms, helping raise awareness and encourage collective action.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What types of issues can I report?</div>
+      <div class="faq-answer">
+        You can report a wide range of civic problems such as potholes, garbage overflow, streetlight outages, drainage blockages, illegal parking, and more.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How can I contribute to resolving issues?</div>
+      <div class="faq-answer">
+        You can volunteer with local community groups, share issues on social media to raise awareness, or directly contact municipal authorities through CivicConnect.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is my personal data safe?</div>
+      <div class="faq-answer">
+        Yes, CivicConnect values your privacy. We only collect the information necessary to report and track issues. For more details, please see our Privacy Policy.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I edit or delete an issue I reported?</div>
+      <div class="faq-answer">
+        Currently, you cannot edit or delete submitted issues directly. However, you can contact our support team to request changes or removal.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Will CivicConnect expand to other cities?</div>
+      <div class="faq-answer">
+        Yes, our long-term vision is to expand CivicConnect to multiple cities across India, empowering citizens everywhere to take part in civic improvement.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I know if an issue is resolved?</div>
+      <div class="faq-answer">
+        Each issue card in the feed shows its progress status. Once marked "Resolved," it means the issue has been addressed by authorities or community volunteers.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can businesses or organizations use CivicConnect?</div>
+      <div class="faq-answer">
+        Yes, businesses and organizations can use CivicConnect to report issues affecting their areas and collaborate with local authorities for solutions.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Does CivicConnect provide notifications?</div>
+      <div class="faq-answer">
+        Future updates will include optional notifications to alert you when the status of your reported issue changes.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I contact CivicConnect support?</div>
+      <div class="faq-answer">
+        You can reach us through the Contact page, where you’ll find a form and email address for support inquiries.
+      </div>
+    </div>
+  </section>
+   <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 CivicConnect – Empowering Citizens</p>
+        <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+    </footer>
+
+  <script>
+    const navBar = document.querySelector("nav");
+    const heroSection = document.getElementById("hero-section");
+
+    function showNav() { navBar.classList.add("active"); }
+    function hideNav() { navBar.classList.remove("active"); }
+
+    // Navbar scroll logic
+    window.addEventListener("scroll", () => {
+      const heroBottom = heroSection.offsetHeight;
+      if (window.scrollY > heroBottom - 60) {
+        showNav();
+      } else {
+        hideNav();
+      }
+    });
+
+    // Emoji hover effect
+    const emoji = document.getElementById("emoji");
+    if (emoji) {
+      emoji.addEventListener("mouseover", () => {
+        emoji.textContent = "😄";
+        emoji.style.transform = "scale(1.2)";
+      });
+      emoji.addEventListener("mouseout", () => {
+        emoji.textContent = "🙂";
+        emoji.style.transform = "scale(1)";
+      });
+    }
+
+    // FAQ accordion logic with smooth dropdown animation
+    const faqQuestions = document.querySelectorAll(".faq-question");
+
+    faqQuestions.forEach(question => {
+      question.addEventListener("click", () => {
+        const answer = question.nextElementSibling;
+
+        // Close other open answers (accordion style)
+        document.querySelectorAll(".faq-answer.show").forEach(openAns => {
+          if (openAns !== answer) {
+            openAns.classList.remove("show");
+            openAns.previousElementSibling.classList.remove("active");
+          }
+        });
+
+        // Toggle current answer
+        question.classList.toggle("active");
+        answer.classList.toggle("show");
+      });
+    });
+  </script>
+</body>
+</html>
