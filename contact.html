@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us – CivicConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: top 0.5s ease, opacity 0.5s ease;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 600;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 700px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-content button {
+            padding: 0.8rem 1.8rem;
+            background: #fff;
+            color: #0078D4;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .hero-content button:hover {
+            background: #e0f7fa;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Contact Section */
+        #contact-main {
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .contact-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .contact-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .contact-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .contact-card h2 {
+            background: linear-gradient(to right, #0078D4, #00B4D8);
+            color: #fff;
+            padding: 1rem;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        .contact-card .sub-card {
+            padding: 2rem;
+            text-align: center;
+            background: #f9f9f9;
+        }
+
+        .contact-card p {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <div class="nav-left">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="report.html">Report Issue</a></li>
+                    <li><a href="issues.html">Issues</a></li>
+                    <li><a href="tracking.html">Accountability Tracking</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="nav-center logo"></div>
+            <div class="nav-right">
+                <div class="emoji-icon" id="emoji" title="Feeling good!">🙂</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero-section">
+        <div class="hero-content">
+            <h1>Get in Touch</h1>
+            <p>We’re here to listen, collaborate, and build smarter communities together. Reach out to CivicConnect in
+                Ghaziabad.</p>
+            <button onclick="scrollToSection('contact-main')">Contact Us</button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-main">
+        <div class="contact-card">
+            <h2>Our Address</h2>
+            <div class="sub-card">
+                <p>CivicConnect HQ<br>
+                    Raj Nagar, Ghaziabad, Uttar Pradesh<br>
+                    PIN: 201002</p>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h2>Reach Us</h2>
+            <div class="sub-card">
+                <p>Email: support@civicconnect.in<br>
+                    Phone: +91 120 123 4567</p>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h2>Find Us</h2>
+            <div class="sub-card">
+                <p>Locate us easily on Google Maps:<br>
+                    <a href="https://www.google.com/maps/place/Ghaziabad,+Uttar+Pradesh" target="_blank">View Map</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 CivicConnect – Empowering Citizens</p>
+        <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+    </footer>
+
+   <script>
+    const navBar = document.querySelector("nav");
+    const heroSection = document.getElementById("hero-section");
+    const getStartedBtn = document.querySelector("#hero-section button");
+
+    function showNav() { 
+      navBar.classList.add("active"); 
+    }
+    function hideNav() { 
+      navBar.classList.remove("active"); 
+    }
+
+    // Scroll logic for navbar
+    window.addEventListener("scroll", () => {
+      const heroBottom = heroSection.offsetHeight;
+      if (window.scrollY > heroBottom - 60) {
+        showNav();
+      } else {
+        hideNav();
+      }
+    });
+
+    // Button click logic
+    getStartedBtn.addEventListener("click", () => {
+      showNav();
+    });
+
+    // Emoji hover effect
+    const emoji = document.getElementById("emoji");
+    if (emoji) {
+      emoji.addEventListener("mouseover", () => {
+        emoji.textContent = "😄";
+        emoji.style.transform = "scale(1.2)";
+      });
+      emoji.addEventListener("mouseout", () => {
+        emoji.textContent = "🙂";
+        emoji.style.transform = "scale(1)";
+      });
+    }
+  </script>
+</body>
+</html>

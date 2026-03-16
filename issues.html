@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CivicConnect – Issues Feed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: top 0.5s ease, opacity 0.5s ease;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 600;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 700px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-content button {
+            padding: 0.8rem 1.8rem;
+            background: #fff;
+            color: #0078D4;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .hero-content button:hover {
+            background: #e0f7fa;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Issues Section */
+        #issues-main {
+            padding: 4rem 2rem;
+        }
+
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .issue-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .issue-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .issue-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .issue-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .issue-card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .issue-card:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        .issue-card:nth-child(6) {
+            animation-delay: 1.2s;
+        }
+
+        .issue-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .issue-header {
+            background: linear-gradient(to right, #0078D4, #00B4D8);
+            color: #fff;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .issue-body {
+            padding: 1.5rem;
+        }
+
+        .issue-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .status-Reported {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .status-Verified {
+            background: #55efc4;
+            color: #00b894;
+        }
+
+        .status-InProgress {
+            background: #74b9ff;
+            color: #0984e3;
+        }
+
+        .status-Resolved {
+            background: #a29bfe;
+            color: #6c5ce7;
+        }
+
+        .issue-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .issue-meta {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .issue-meta span {
+            margin-right: 1rem;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <div class="nav-left">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="report.html">Report Issue</a></li>
+                    <li><a href="issues.html">Issues</a></li>
+                    <li><a href="hallofshame.html">Hall of Shame</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="nav-center logo">CivicConnect</div>
+            <div class="nav-right">
+                <div class="emoji-icon" id="emoji" title="Feeling good!">🙂</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero-section">
+        <div class="hero-content">
+            <h1>Community Issues Feed</h1>
+            <p>Welcome to the Issues page. Here you can explore civic problems reported across Ghaziabad, track their
+                progress, and filter by locality, area, or resolution status. Stay informed and engaged with your
+                community.</p>
+            <button onclick="scrollToSection('filter-section')">Explore Issues</button>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section id="filter-section">
+        <select id="locality-filter">
+            <option value="">Locality</option>
+            <option value="Raj Nagar">Raj Nagar</option>
+            <option value="Uttam Nagar">Uttam Nagar</option>
+            <option value="Kavi Nagar">Kavi Nagar</option>
+            <option value="Patel Nagar">Patel Nagar</option>
+            <option value="Indirapuram">Indirapuram</option>
+            <option value="Vijay Nagar">Vijay Nagar</option>
+            <option value="RDC">RDC</option>
+            <option value="Nehru Nagar">Nehru Nagar</option>
+        </select>
+        <select id="status-filter">
+            <option value="">Status</option>
+            <option value="resolved">Resolved</option>
+            <option value="working">Working</option>
+            <option value="not-resolved">Not Resolved</option>
+        </select>
+    </section>
+
+    <!-- Issue Feed -->
+    <section id="issue-feed">
+        <div class="issue-card" data-locality="Raj Nagar" data-status="not-resolved">
+            <h3>Potholes in Raj Nagar</h3>
+            <p>Residents reported multiple potholes causing traffic issues.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 40%;"></div>
+            </div>
+        </div>
+
+        <div class="issue-card" data-locality="Uttam Nagar" data-status="working">
+            <h3>Garbage Overflow in Uttam Nagar</h3>
+            <p>Unattended garbage bins leading to foul smell and health concerns.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 70%;"></div>
+            </div>
+        </div>
+        <div class="issue-card" data-locality="Indirapuram" data-status="not-resolved">
+            <h3>Broken Traffic Signals in Indirapuram</h3>
+            <p>Traffic signals malfunctioning, leading to congestion and accidents.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 30%;"></div>
+            </div>
+        </div>
+
+        <div class="issue-card" data-locality="Vijay Nagar" data-status="working">
+            <h3>Water Supply Shortage in Vijay Nagar</h3>
+            <p>Residents facing irregular water supply for the past week.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 60%;"></div>
+            </div>
+        </div>
+
+        <div class="issue-card" data-locality="RDC" data-status="resolved">
+            <h3>Illegal Parking in RDC</h3>
+            <p>Vehicles parked illegally causing obstruction to pedestrians.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="issue-card" data-locality="Nehru Nagar" data-status="not-resolved">
+            <h3>Open Manholes in Nehru Nagar</h3>
+            <p>Open manholes posing danger to residents, especially children.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 25%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <h3>CivicConnect</h3>
+            <p>Building a connected and empowered community in Ghaziabad.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="issues.html">Issues</a></li>
+                <li><a href="report.html">Report Issue</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+            </ul>
+            <p class="footer-copy">&copy; 2026 CivicConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        const navBar = document.querySelector("nav");
+        const heroSection = document.getElementById("hero-section");
+        const getStartedBtn = document.querySelector("#hero-section button");
+
+        function showNav() { navBar.classList.add("active"); }
+        function hideNav() { navBar.classList.remove("active"); }
+
+        // Scroll logic for navbar
+        window.addEventListener("scroll", () => {
+            const heroBottom = heroSection.offsetHeight;
+            if (window.scrollY > heroBottom - 60) {
+                showNav();
+            } else {
+                hideNav();
+            }
+        });
+
+        // Button click logic
+        getStartedBtn.addEventListener("click", () => {
+            showNav();
+            document.getElementById("filter-section").scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Emoji hover effect
+        const emoji = document.getElementById("emoji");
+        if (emoji) {
+            emoji.addEventListener("mouseover", () => {
+                emoji.textContent = "😄";
+                emoji.style.transform = "scale(1.2)";
+            });
+            emoji.addEventListener("mouseout", () => {
+                emoji.textContent = "🙂";
+                emoji.style.transform = "scale(1)";
+            });
+        }
+
+        // Animate progress bars on load
+        window.addEventListener("load", () => {
+            document.querySelectorAll(".progress-bar").forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = "0";
+                setTimeout(() => { bar.style.width = width; }, 300);
+            });
+        });
+
+        // Multi-filter logic (locality + status)
+        const localityFilter = document.getElementById("locality-filter");
+        const statusFilter = document.getElementById("status-filter");
+        const issueCards = document.querySelectorAll(".issue-card");
+
+        function applyFilters() {
+            const selectedLocality = localityFilter.value;
+            const selectedStatus = statusFilter.value;
+
+            issueCards.forEach(card => {
+                const matchesLocality = !selectedLocality || card.dataset.locality === selectedLocality;
+                const matchesStatus = !selectedStatus || card.dataset.status === selectedStatus;
+
+                if (matchesLocality && matchesStatus) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        localityFilter.addEventListener("change", applyFilters);
+        statusFilter.addEventListener("change", applyFilters);
+
+        // Smooth scroll helper
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
