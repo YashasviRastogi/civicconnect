@@ -1,0 +1,50 @@
+{
+  "vaishali": {
+    "rwa": "Vaishali Sector RWA", 
+    "phone": "9876543210",
+    "email": "rwa.vaishali@gmail.com",
+    "councillor": "Amit Kumar"
+  },
+  "indirapuram": {
+    "rwa": "Sapphire Heights RWA", 
+    "phone": "9812345678",
+    "email": "sapphire.rwa@gmail.com",
+    "councillor": "Rajesh Sharma"
+  },
+  "raj_nagar": {
+    "rwa": "Raj Nagar Extension RWA", 
+    "phone": "9876541230",
+    "email": "rajnagar.rwa@gmail.com",
+    "councillor": "Priya Gupta"
+  },
+  "vasundhara": {
+    "rwa": "Vasundhara Enclave RWA", 
+    "phone": "9812341234",
+    "email": "vasundhara.rwa@gmail.com",
+    "councillor": "Vikram Singh"
+  },
+  "shipra_sun_city": {
+    "rwa": "Shipra Sun City RWA", 
+    "phone": "9871234567",
+    "email": "shipra.rwa@gmail.com",
+    "councillor": "Neha Sharma"
+  },
+  "ahinsa_khand": {
+    "rwa": "Ahinsa Khand RWA", 
+    "phone": "9812348765",
+    "email": "ahinsa.rwa@gmail.com",
+    "councillor": "Rohit Verma"
+  },
+  "kaushambi": {
+    "rwa": "Kaushambi RWA", 
+    "phone": "9876548765",
+    "email": "kaushambi.rwa@gmail.com",
+    "councillor": "Suman Lata"
+  },
+  "sector_62": {
+    "rwa": "Sector 62 RWA", 
+    "phone": "9811111111",
+    "email": "sector62.rwa@gmail.com",
+    "councillor": "Arun Kumar"
+  }
+}
