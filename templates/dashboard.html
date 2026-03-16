@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - CivicConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #FAF9F6;
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 0;
+            color: #3E2A14;
+        }
+        .navbar {
+            background: #fff;
+            border-bottom: 2px solid #E8DDD0;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(180,140,100,0.07);
+        }
+        .navbar .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #D4A574;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .navbar-links a {
+            color: #7D5C3A;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.92rem;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover { color: #D4A574; }
+        .navbar-links a.active { color: #D4A574; font-weight: bold; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        .dashboard-header {
+            padding: 36px 0 20px;
+            border-bottom: 1px solid #EDE3D8;
+            margin-bottom: 28px;
+        }
+        .dashboard-header h1 {
+            color: #5C3D1E;
+            font-size: 1.7rem;
+            margin: 0 0 4px;
+        }
+        .dashboard-header p {
+            color: #9C7B5A;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: #fff;
+            border: 1px solid #E8DDD0;
+            border-radius: 10px;
+            padding: 20px 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(180,140,100,0.06);
+        }
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #D4A574;
+            display: block;
+        }
+        .stat-card .stat-label {
+            font-size: 0.82rem;
+            color: #9C7B5A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            color: #5C3D1E;
+            font-size: 1.15rem;
+            margin: 0;
+        }
+        .btn {
+            background: #D4A574;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { background: #C49060; }
+        .btn-outline {
+            background: transparent;
+            color: #D4A574;
+            border: 1.5px solid #D4A574;
+            padding: 8px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .btn-outline:hover { background: #D4A574; color: #fff; }
+
+        .filter-bar {
+            background: #fff;
+            border: 1px solid #E8DDD0;
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-bar label { color: #7D5C3A; font-size: 0.88rem; font-weight: bold; }
+        .filter-bar select {
+            padding: 7px 12px;
+            border: 1.5px solid #E0D0BC;
+            border-radius: 6px;
+            background: #FDFAF7;
+            color: #3E2A14;
+            font-size: 0.88rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .filter-bar select:focus { border-color: #D4A574; }
+
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+        .issue-card {
+            background: #fff;
+            border: 1px solid #E8DDD0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(180,140,100,0.06);
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .issue-card:hover {
+            box-shadow: 0 6px 20px rgba(180,140,100,0.14);
+            transform: translateY(-2px);
+        }
+        .issue-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .issue-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #5C3D1E;
+            margin: 0 0 6px;
+            line-height: 1.4;
+        }
+        .issue-desc {
+            color: #7D5C3A;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0 0 14px;
+        }
+        .issue-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+        .badge-locality {
+            background: #F5EBD8;
+            color: #7D4E1F;
+        }
+        .badge-category {
+            background: #EDE8F5;
+            color: #5B4A7A;
+        }
+        .status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .status-Reported { background: #FFF3CD; color: #856404; }
+        .status-Verified { background: #CCE5FF; color: #004085; }
+        .status-In.Progress, .status-In_Progress { background: #D4EDDA; color: #155724; }
+        .status-Resolved { background: #D4EDDA; color: #155724; }
+
+        .issue-date {
+            color: #B09070;
+            font-size: 0.78rem;
+            margin-left: auto;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9C7B5A;
+        }
+        .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .empty-state h3 { color: #7D5C3A; margin-bottom: 8px; }
+        .flash-messages { margin-bottom: 16px; }
+        .flash {
+            background: #FFF3E0;
+            border-left: 4px solid #D4A574;
+            color: #7D4E1F;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="navbar-brand">🏘 CivicConnect</a>
+            <div class="navbar-links">
+                <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
+                <a href="{{ url_for('report_issue') }}">Report Issue</a>
+                <a href="{{ url_for('hall_of_shame') }}">Hall of Shame</a>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('admin') }}">Admin</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout ({{ current_user.username }})</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome back, {{ current_user.username }} 👋</h1>
+            <p>Here's what's happening in your locality today.</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="flash">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-number">{{ issues|length }}</span>
+                <span class="stat-label">Total Issues</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ issues|selectattr('status', 'equalto', 'Reported')|list|length }}</span>
+                <span class="stat-label">Reported</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ issues|selectattr('status', 'equalto', 'In Progress')|list|length }}</span>
+                <span class="stat-label">In Progress</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ issues|selectattr('status', 'equalto', 'Resolved')|list|length }}</span>
+                <span class="stat-label">Resolved</span>
+            </div>
+        </div>
+
+        <!-- Issues Section -->
+        <div class="section-header">
+            <h2>Recent Issues</h2>
+            <a href="{{ url_for('report_issue') }}" class="btn">+ Report New Issue</a>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <label>Filter by Locality:</label>
+            <select onchange="filterIssues(this.value, 'locality')">
+                <option value="all">All Localities</option>
+                {% for locality in localities %}
+                <option value="{{ locality }}">{{ locality.replace('_', ' ').title() }}</option>
+                {% endfor %}
+            </select>
+            <label>Status:</label>
+            <select onchange="filterIssues(this.value, 'status')">
+                <option value="all">All Statuses</option>
+                <option value="Reported">Reported</option>
+                <option value="Verified">Verified</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+        </div>
+
+        <!-- Issues Grid -->
+        {% if issues %}
+        <div class="issues-grid" id="issuesGrid">
+            {% for issue in issues %}
+            <a href="{{ url_for('issue_detail', id=issue.id) }}" class="issue-card"
+               data-locality="{{ issue.locality }}" data-status="{{ issue.status }}">
+                <div class="issue-card-top">
+                    <span class="status status-{{ issue.status.replace(' ', '_') }}">{{ issue.status }}</span>
+                    <span class="issue-date">{{ issue.created_at.strftime('%d %b %Y') }}</span>
+                </div>
+                <h3 class="issue-title">{{ issue.title }}</h3>
+                <p class="issue-desc">{{ issue.description[:100] }}{% if issue.description|length > 100 %}...{% endif %}</p>
+                <div class="issue-meta">
+                    <span class="badge badge-locality">📍 {{ issue.locality.replace('_', ' ').title() }}</span>
+                    <span class="badge badge-category">{{ issue.category }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <span class="emoji">🏙️</span>
+            <h3>No issues reported yet</h3>
+            <p>Be the first to report a civic issue in your locality.</p>
+            <a href="{{ url_for('report_issue') }}" class="btn" style="margin-top:12px;">Report an Issue</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        let filters = { locality: 'all', status: 'all' };
+
+        function filterIssues(value, type) {
+            filters[type] = value;
+            const cards = document.querySelectorAll('.issue-card');
+            cards.forEach(card => {
+                const localityMatch = filters.locality === 'all' || card.dataset.locality === filters.locality;
+                const statusMatch = filters.status === 'all' || card.dataset.status === filters.status;
+                card.style.display = (localityMatch && statusMatch) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
