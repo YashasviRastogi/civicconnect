@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - CivicConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #FAF9F6;
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 0;
+        }
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FAF9F6 0%, #F0EBE3 100%);
+        }
+        .auth-box {
+            background: #fff;
+            border: 1px solid #E8DDD0;
+            border-radius: 12px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 24px rgba(180, 140, 100, 0.10);
+        }
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .auth-logo span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #D4A574;
+            letter-spacing: 1px;
+        }
+        .auth-logo small {
+            display: block;
+            color: #9C7B5A;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+        .auth-box h2 {
+            text-align: center;
+            color: #5C3D1E;
+            margin: 24px 0 28px;
+            font-size: 1.4rem;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        .flash-messages {
+            margin-bottom: 16px;
+        }
+        .flash {
+            background: #FFF3E0;
+            border-left: 4px solid #D4A574;
+            color: #7D4E1F;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #7D5C3A;
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #E0D0BC;
+            border-radius: 8px;
+            font-size: 0.97rem;
+            color: #3E2A14;
+            background: #FDFAF7;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #D4A574;
+            background: #fff;
+        }
+        .btn-full {
+            width: 100%;
+            padding: 13px;
+            background: #D4A574;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+            margin-top: 4px;
+        }
+        .btn-full:hover {
+            background: #C49060;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #9C7B5A;
+            font-size: 0.9rem;
+        }
+        .auth-footer a {
+            color: #D4A574;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .divider {
+            border: none;
+            border-top: 1px solid #EDE3D8;
+            margin: 24px 0;
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 14px;
+        }
+        .back-home a {
+            color: #B08050;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        .back-home a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span>🏘 CivicConnect</span>
+                <small>Ghaziabad Civic Issue Tracker</small>
+            </div>
+
+            <h2>Welcome Back</h2>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn-full">Login</button>
+            </form>
+
+            <hr class="divider">
+
+            <div class="auth-footer">
+                Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+            </div>
+            <div class="back-home">
+                <a href="{{ url_for('home') }}">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
