@@ -106,7 +106,7 @@ Ghaziabad sector badges
 ```
 civicconnect/
 ├── app.py                 # Flask backend (Person C)
-├── models.py              # User + Issue models
+├── model.py              # User + Issue models
 ├── localities.json        # Ghaziabad RWA data (Person D)
 ├── demo_data.py           # 50 test issues
 ├── templates/             # HTML pages (A+B)
