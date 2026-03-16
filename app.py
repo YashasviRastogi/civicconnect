@@ -36,7 +36,7 @@ except:
 
 @app.route('/')
 def home():
-    return render_template('home.html')  # Person A creates
+    return render_template('landing.html')  # Person A creates
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
