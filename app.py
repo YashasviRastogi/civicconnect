@@ -1,61 +1,147 @@
-from flask import Flask
-import sqlite3
-from collections import Counter
-import random
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from model import db, User, Issue
+from config import Config
+from datetime import datetime, timedelta
+import os
+import json
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
-def get_db_connection():
-    conn = sqlite3.connect('civic.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+# Initialize extensions
+db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-def init_db():
-    conn = get_db_connection()
-    conn.execute('CREATE TABLE IF NOT EXISTS issues (title TEXT, locality TEXT, category TEXT, status TEXT)')
-    conn.commit()
-    conn.close()
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id)) 
+
+# Create tables (runs once)
+with app.app_context():
+    db.create_all()
+    print("✅ Database created!")
+
+# Load localities from Person D's JSON
+LOCALITIES = []
+try:
+    with open('localities.json', 'r') as f:
+        locality_data = json.load(f)
+        LOCALITIES = list(locality_data.keys())
+except:
+    LOCALITIES = ['vaishali', 'indirapuram', 'raj_nagar', 'vasundhara']
 
 @app.route('/')
 def home():
-    return '''
-    <h1>🏛️ CivicConnect - Ghaziabad Civic Issues</h1>
-    <a href="/hall_of_shame"><h2>🚨 HALL OF SHAME</h2></a>
-    '''
+    return render_template('home.html')  # Person A creates
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            login_user(user)
+            flash('Logged in successfully!')
+            return redirect(url_for('dashboard'))
+        flash('Invalid credentials')
+    return render_template('login.html')  # Person A
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        if User.query.filter_by(username=username).first():
+            flash('Username taken')
+            return redirect(url_for('register'))
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Registered! Please login.')
+        return redirect(url_for('login'))
+    return render_template('register.html')  # Person A
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    issues = Issue.query.order_by(Issue.created_at.desc()).limit(20).all()
+    return render_template('dashboard.html', issues=issues, localities=LOCALITIES)
+
+@app.route('/report', methods=['GET', 'POST'])
+@login_required
+def report_issue():
+    if request.method == 'POST':
+        issue = Issue(
+            title=request.form['title'],
+            description=request.form['description'],
+            category=request.form['category'],
+            locality=request.form['locality'],
+            created_by=current_user.id
+        )
+        db.session.add(issue)
+        db.session.commit()
+        flash('Issue reported!')
+        return redirect(url_for('dashboard'))
+    return render_template('report.html', localities=LOCALITIES)
+
+@app.route('/issue/<int:id>')
+@login_required
+def issue_detail(id):
+    issue = Issue.query.get_or_404(id)
+    return render_template('issue_detail.html', issue=issue)
+
+@app.route('/admin')
+@login_required
+def admin():
+    if not current_user.is_admin:
+        flash('Admin only!')
+        return redirect(url_for('dashboard'))
+    issues = Issue.query.all()
+    return render_template('admin.html', issues=issues)
+
+@app.route('/admin/update_status/<int:id>', methods=['POST'])
+@login_required
+def update_status(id):
+    if not current_user.is_admin:
+        return jsonify({'error': 'Admin only'}), 403
+    issue = Issue.query.get_or_404(id)
+    issue.status = request.form['status']
+    issue.updated_at = datetime.utcnow()
+    db.session.commit()
+    return jsonify({'success': True, 'status': issue.status})
 
 @app.route('/hall_of_shame')
 def hall_of_shame():
-    conn = get_db_connection()
+    # Compute locality metrics
+    metrics = db.session.query(
+        Issue.locality,
+        db.func.count().label('total'),
+        db.func.sum(db.case((Issue.status != 'Resolved', 1), else_=0)).label('unresolved'),
+        db.func.avg((datetime.utcnow() - Issue.created_at).days).label('avg_days')
+    ).group_by(Issue.locality).all()
     
-    # Create demo data if empty
-    c = conn.execute('SELECT COUNT(*) FROM issues')
-    if c.fetchone()[0] == 0:
-        localities = ['vaishali','indirapuram','raj_nagar','vasundhara','shipra_sun_city','ahinsa_khand','kaushambi','sector_62']
-        categories = ['Pothole','Garbage','Water Leak','Street Light','Drainage']
-        statuses = ['Reported','Verified','In Progress','Resolved']
-        
-        issues = []
-        for i in range(50):
-            locality = random.choices(localities, weights=[5,20,10,5,5,8,7,5])[0]
-            issues.append([f"Issue #{i+1}", locality, random.choice(categories), random.choice(statuses)])
-        
-        conn.executemany('INSERT INTO issues VALUES (?,?,?,?)', issues)
-        conn.commit()
+    # Load locality contacts (Person D's JSON)
+    try:
+        with open('localities.json', 'r') as f:
+            contacts = json.load(f)
+    except:
+        contacts = {}
     
-    # Count issues by locality
-    c = conn.execute("SELECT locality, COUNT(*) as count FROM issues WHERE status='Reported' GROUP BY locality ORDER BY count DESC")
-    results = c.fetchall()
-    conn.close()
-    
-    html = "<h1>🚨 GHAZIABAD HALL OF SHAME</h1>"
-    html += "<h2>Worst Performing Sectors:</h2><ul>"
-    for row in results:
-        html += f"<li>🥇 <b>{row['locality'].replace('_',' ').title()}</b>: {row['count']} OPEN ISSUES</li>"
-    html += "</ul><p><em>Indirapuram usually worst! Real Ghaziabad data.</em></p>"
-    
-    return html
+    return render_template('hall_of_shame.html', metrics=metrics, contacts=contacts)
 
 if __name__ == '__main__':
-    init_db()
-    print("🚀 CivicConnect running at http://localhost:5000")
-    app.run(debug=True)
+    os.makedirs('instance', exist_ok=True)
+    app.run(debug=True, port=5000)
