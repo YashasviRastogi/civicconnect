@@ -125,21 +125,23 @@ def update_status(id):
 
 @app.route('/hall_of_shame')
 def hall_of_shame():
-    # Compute locality metrics
     metrics = db.session.query(
         Issue.locality,
         db.func.count().label('total'),
-        db.func.sum(db.case((Issue.status != 'Resolved', 1), else_=0)).label('unresolved'),
-        db.func.avg((datetime.utcnow() - Issue.created_at).days).label('avg_days')
+        db.func.sum(
+            db.case(
+                (Issue.status != 'Resolved', 1),
+                else_=0
+            )
+        ).label('unresolved')
     ).group_by(Issue.locality).all()
-    
-    # Load locality contacts (Person D's JSON)
+
     try:
         with open('localities.json', 'r') as f:
             contacts = json.load(f)
     except:
         contacts = {}
-    
+
     return render_template('hall_of_shame.html', metrics=metrics, contacts=contacts)
 
 if __name__ == '__main__':
