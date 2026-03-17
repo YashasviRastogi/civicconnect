@@ -44,8 +44,8 @@ Design: Custom Beige/Brown theme (Mobile-first)
 Person A: Frontend Lead (Landing + Auth + Dashboard)
 Person B: Frontend Support (Admin + Hall of Shame UI)  
 Person C: Backend Lead (CRUD + Authentication)
-Person D: Data Master (Ghaziabad localities + Demo data)
-Person E: Integration (Testing + Deployment)
+Person D: Data Master (Ghaziabad localities + Demo data+ deployment)
+Person E: Integration (Testing)
 ```
 
 ## 🏃‍♂️ **Local Setup** (5 minutes)
@@ -114,7 +114,7 @@ civicconnect/
 │   ├── dashboard.html
 │   └── hall_of_shame.html
 ├── static/css/style.css   # Beige theme (A)
-├── Procfile               # Deployment (E)
+├── Procfile               # Deployment (D)
 └── requirements.txt
 ```
 
@@ -148,7 +148,6 @@ Data: Ghaziabad municipal sectors
 ```
 Hackathon Demo: https://civicconnect-ghaziabad.onrender.com
 GitHub Issues: Welcome!
-Hackathon Judges: Questions? Ask our Deployment Lead!
 ```
 
 ***
