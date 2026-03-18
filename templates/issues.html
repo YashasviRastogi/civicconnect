@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CivicConnect – Issues</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafc;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        .nav-center {
+            flex: 2;
+            /* links take center space */
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-center ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0078D4;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 750px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Issues Section */
+        #issues-section {
+            max-width: 1000px;
+            margin: 3rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        #issues-section h2 {
+            color: #0078D4;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .issue-card {
+            background: #f1f9ff;
+            border: 1px solid #cce5ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .issue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .issue-title {
+            font-weight: 600;
+            color: #0078D4;
+            margin-bottom: 0.5rem;
+        }
+
+        .issue-meta {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .issue-status {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-notresolved {
+            background: #ffdddd;
+            color: #a94442;
+        }
+
+        .status-working {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <!-- Left corner: Logo text -->
+            <div class="nav-left logo">CiviConnect</div>
+
+            <!-- Center: Navigation links -->
+            <div class="nav-center">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="report.html">Report Issue</a></li>
+                    <li><a href="issues.html">Issues</a></li>
+                    <li><a href="hallofshame.html">Hall of Shame</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Right corner: Emoji -->
+            <div class="nav-right">
+                <div class="emoji-icon" id="emoji" title="Feeling good!">🙂</div>
+            </div>
+        </nav>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero-section">
+        <div class="hero-content">
+            <h1>Issues Feed</h1>
+            <p>Explore reported civic issues in your community. Track their progress and join hands in resolving them.
+            </p>
+        </div>
+    </section>
+
+    <!-- Issues Section -->
+    <section id="issues-section">
+        <h2>Reported Issues</h2>
+
+        <div class="issue-card">
+            <div class="issue-title">Potholes in Sector 15</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 10, 2026</div>
+            <span class="issue-status status-notresolved">Not Resolved</span>
+            <p>Large potholes have appeared on the main road, causing traffic jams and accidents. Needs urgent repair.
+            </p>
+        </div>
+
+        <div class="issue-card">
+            <div class="issue-title">Streetlight Outage in Raj Nagar</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 12, 2026</div>
+            <span class="issue-status status-working">Working</span>
+            <p>Several streetlights are not functioning, making the area unsafe at night. Authorities have started
+                repair work.</p>
+        </div>
+
+        <div class="issue-card">
+            <div class="issue-title">Garbage Overflow in Indirapuram</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 14, 2026</div>
+            <span class="issue-status status-resolved">Resolved</span>
+            <p>Garbage bins were overflowing, attracting stray animals. The issue has been resolved after municipal
+                intervention.</p>
+        </div>
+        <div class="issue-card">
+            <div class="issue-title">Drainage Blockage in Uttam Nagar</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 15, 2026</div>
+            <span class="issue-status status-notresolved">Not Resolved</span>
+            <p>Drainage system is blocked, leading to waterlogging during rains. Needs immediate cleaning and
+                maintenance.</p>
+        </div>
+
+        <div class="issue-card">
+            <div class="issue-title">Illegal Parking in Kavi Nagar</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 16, 2026</div>
+            <span class="issue-status status-working">Working</span>
+            <p>Cars are being parked illegally on both sides of the road, causing congestion. Authorities have started
+                issuing fines.</p>
+        </div>
+
+        <div class="issue-card">
+            <div class="issue-title">Broken Footpath in Vijay Nagar</div>
+            <div class="issue-meta">Location: Ghaziabad | Date: March 17, 2026</div>
+            <span class="issue-status status-resolved">Resolved</span>
+            <p>The footpath was broken and unsafe for pedestrians. It has now been repaired and made safe for use.</p>
+        </div>
+
+        <!-- Report New Issue Button -->
+        <div style="text-align:center; margin-top:2rem;">
+            <a href="report.html"
+                style="display:inline-block; padding:0.8rem 1.5rem; background:#0078D4; color:#fff; border-radius:8px; text-decoration:none; font-weight:600; transition:background 0.3s ease;">
+                Report New Issue
+            </a>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <h3>CivicConnect</h3>
+            </br>
+            <p>Building a connected and empowered community in Ghaziabad.</p>
+            <ul class="footer-links">
+                <li><a href="issues.html">Issues</a></li>
+                <li><a href="report.html">Report Issue</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+            </ul>
+            </br>
+            <p class="footer-copy">&copy; 2026 CivicConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navBar = document.querySelector("nav");
+        const heroSection = document.getElementById("hero-section");
+
+        function showNav() { navBar.classList.add("active"); }
+        function hideNav() { navBar.classList.remove("active"); }
+
+        // Navbar scroll logic
+        window.addEventListener("scroll", () => {
+            const heroBottom = heroSection.offsetHeight;
+            if (window.scrollY > heroBottom - 60) {
+                showNav();
+            } else {
+                hideNav();
+            }
+        });
+
+        // Emoji hover effect
+        const emoji = document.getElementById("emoji");
+        if (emoji) {
+            emoji.addEventListener("mouseover", () => {
+                emoji.textContent = "😄";
+                emoji.style.transform = "scale(1.2)";
+            });
+            emoji.addEventListener("mouseout", () => {
+                emoji.textContent = "🙂";
+                emoji.style.transform = "scale(1)";
+            });
+        }
+    </script>
+</body>
+
+</html>

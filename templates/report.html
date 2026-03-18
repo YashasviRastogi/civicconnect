@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CivicConnect – Report an Issue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafc;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav.active {
+            top: 0;
+            opacity: 1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-center {
+            flex: 2;
+            /* links take center space */
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-center ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        nav ul li a:hover {
+            color: #0078D4;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0078D4;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hero Section */
+        #hero-section {
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1.5s ease-in-out;
+            max-width: 750px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0f7fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Section */
+        #report-form {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        #report-form h2 {
+            color: #0078D4;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border: 1px solid #0078D4;
+            outline: none;
+        }
+
+        button {
+            display: block;
+            margin: 1rem auto 0;
+            padding: 0.9rem 2rem;
+            background: #0078D4;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            background: #00B4D8;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        footer h3 {
+            color: #00B4D8;
+            margin-bottom: 0.5rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            padding: 0;
+        }
+
+        .footer-links li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links li a:hover {
+            color: #00B4D8;
+        }
+
+        .footer-copy {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <!-- Left corner: Logo text -->
+            <div class="nav-left logo">CiviConnect</div>
+
+            <!-- Center: Navigation links -->
+            <div class="nav-center">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="report.html">Report Issue</a></li>
+                    <li><a href="issues.html">Issues</a></li>
+                    <li><a href="hallofshame.html">Hall of Shame</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Right corner: Emoji -->
+            <div class="nav-right">
+                <div class="emoji-icon" id="emoji" title="Feeling good!">🙂</div>
+            </div>
+        </nav>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero-section">
+        <div class="hero-content">
+            <h1>Report an Issue</h1>
+            <p>Help improve your community by reporting civic problems. Fill out the form below to submit an issue in
+                your locality.</p>
+        </div>
+    </section>
+
+    <!-- Report Form -->
+    <section id="report-form">
+        <h2>Submit Your Issue</h2>
+        <form>
+            <div class="form-group">
+                <label for="locality">Locality</label>
+                <select id="locality" required>
+                    <option value="">Select Locality</option>
+                    <option value="Raj Nagar">Raj Nagar</option>
+                    <option value="Shastri Nagar">Shastri Nagar</option>
+                    <option value="Kavi Nagar">Kavi Nagar</option>
+                    <option value="Patel Nagar">Patel Nagar</option>
+                    <option value="Indirapuram">Indirapuram</option>
+                    <option value="Vijay Nagar">Vijay Nagar</option>
+                    <option value="RDC">RDC</option>
+                    <option value="Nehru Nagar">Nehru Nagar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="area">Area</label>
+                <input type="text" id="area" placeholder="Enter area name" required />
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" required>
+                    <option value="">Select Status</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="working">Working</option>
+                    <option value="not-resolved">Not Resolved</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Issue Description</label>
+                <textarea id="description" rows="5" placeholder="Describe the issue in detail..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Upload Image (optional)</label>
+                <input type="file" id="image" accept="image/*" />
+            </div>
+
+            <button type="submit">Submit Issue</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <h3>CivicConnect</h3>
+            <p>Building a connected and empowered community in Ghaziabad.</p>
+            <ul class="footer-links">
+                <li><a href="issues.html">Issues</a></li>
+                <li><a href="report.html">Report Issue</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+            </ul>
+            <p class="footer-copy">&copy; 2026 CivicConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navBar = document.querySelector("nav");
+        const heroSection = document.getElementById("hero-section");
+
+        function showNav() { navBar.classList.add("active"); }
+        function hideNav() { navBar.classList.remove("active"); }
+
+        // Navbar scroll logic
+        window.addEventListener("scroll", () => {
+            const heroBottom = heroSection.offsetHeight;
+            if (window.scrollY > heroBottom - 60) {
+                showNav();
+            } else {
+                hideNav();
+            }
+        });
+
+        // Emoji hover effect
+        const emoji = document.getElementById("emoji");
+        if (emoji) {
+            emoji.addEventListener("mouseover", () => {
+                emoji.textContent = "😄";
+                emoji.style.transform = "scale(1.2)";
+            });
+            emoji.addEventListener("mouseout", () => {
+                emoji.textContent = "🙂";
+                emoji.style.transform = "scale(1)";
+            });
+        }
+
+        // Form submission logic
+        const form = document.querySelector("#report-form form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const locality = document.getElementById("locality").value;
+            const area = document.getElementById("area").value;
+            const status = document.getElementById("status").value;
+            const description = document.getElementById("description").value;
+
+            alert(`Issue submitted!\nLocality: ${locality}\nArea: ${area}\nStatus: ${status}\nDescription: ${description}`);
+            form.reset();
+        });
+    </script>
+</body>
+
+</html>
