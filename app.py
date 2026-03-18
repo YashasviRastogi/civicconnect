@@ -3,14 +3,13 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import db, User, Issue
 from config import Config
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 import json
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Initialize extensions
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -18,14 +17,12 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id)) 
+    return User.query.get(int(user_id))
 
-# Create tables (runs once)
 with app.app_context():
     db.create_all()
     print("✅ Database created!")
 
-# Load localities from Person D's JSON
 LOCALITIES = []
 try:
     with open('localities.json', 'r') as f:
@@ -36,7 +33,7 @@ except:
 
 @app.route('/')
 def home():
-    return render_template('landing.html')  # Person A creates
+    return render_template('landing.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,7 +46,7 @@ def login():
             flash('Logged in successfully!')
             return redirect(url_for('dashboard'))
         flash('Invalid credentials')
-    return render_template('login.html')  # Person A
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -66,7 +63,7 @@ def register():
         db.session.commit()
         flash('Registered! Please login.')
         return redirect(url_for('login'))
-    return render_template('register.html')  # Person A
+    return render_template('register.html')
 
 @app.route('/logout')
 @login_required
@@ -123,6 +120,13 @@ def update_status(id):
     db.session.commit()
     return jsonify({'success': True, 'status': issue.status})
 
+@app.route('/issues')
+@login_required
+def issues():
+    issues_list = Issue.query.order_by(Issue.created_at.desc()).all()
+    return render_template('issues.html', issues=issues_list, localities=LOCALITIES)
+
+
 @app.route('/hall_of_shame')
 def hall_of_shame():
     metrics = db.session.query(
@@ -143,6 +147,23 @@ def hall_of_shame():
         contacts = {}
 
     return render_template('hall_of_shame.html', metrics=metrics, contacts=contacts)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('user_profile.html')
 
 if __name__ == '__main__':
     os.makedirs('instance', exist_ok=True)
