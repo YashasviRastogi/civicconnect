@@ -5,117 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CivicConnect – Landing Page</title>
   <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body,
-        html {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-            height: 100vh;
-        }
-
-        .landing-container {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
-            color: white;
-            overflow: hidden;
-        }
-
-        .logo-wrapper {
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin-bottom: 2rem;
-        }
-
-        .logo-wrapper:hover {
-            transform: scale(1.05);
-        }
-
-        .animated-logo {
-            width: 150px;
-            height: auto;
-            animation: fadeInUp 1.5s ease-in-out;
-        }
-
-        h1 {
-            font-size: 3.2rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #fff, #e0f7fa);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-            animation: fadeInUp 1.5s ease-in-out 0.5s both;
-            max-width: 700px;
-            padding: 0 2rem;
-        }
-
-        footer {
-            font-size: 1.3rem;
-            margin-top: 1rem;
-            line-height: 1.6;
-            animation: fadeInUp 1.5s ease-in-out 1s both;
-            max-width: 700px;
-            padding: 0 2rem;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Canvas Animation */
-        #bgCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .landing-container > * {
-            position: relative;
-            z-index: 2;
-        }
-    </style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      overflow: hidden;
+    }
+    .landing-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    }
+    #bgCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    .logo-wrapper {
+      z-index: 2;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .animated-logo {
+      width: 80px;
+      height: 80px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    h1 {
+      z-index: 2;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .subtitle {
+      z-index: 2;
+      color: #e0f7fa;
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+    }
+    .btn-group {
+      z-index: 2;
+      display: flex;
+      gap: 16px;
+    }
+    .btn-login {
+      background: #D4A574;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-login:hover {
+      background: #C49060;
+      transform: translateY(-2px);
+    }
+    .btn-register {
+      background: white;
+      color: #D4A574;
+      padding: 12px 32px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid #D4A574;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-register:hover {
+      background: #fff8f2;
+      transform: translateY(-2px);
+    }
+    footer {
+      position: absolute;
+      bottom: 20px;
+      z-index: 2;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
   <div class="landing-container">
     <canvas id="bgCanvas"></canvas>
-    <div class="logo-wrapper" onclick="redirectToHome()" title="Click to enter">
-      <img src="cc-logo.png" alt="CivicConnect Logo" class="animated-logo" />
+    <div class="logo-wrapper">
+      <img src="{{ url_for('static', filename='cc-logo.png') }}" alt="CivicConnect Logo" class="animated-logo" />
     </div>
-    <h1>Welcome to CivicConnect – Ghaziabad Edition</h1>
-    <footer>Empowering citizens, holding localities accountable.</footer>
+    <h1>Welcome to CivicConnect</h1>
+    <p class="subtitle">Ghaziabad Edition — Empowering citizens, holding localities accountable.</p>
+    <div class="btn-group">
+      <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+      <a href="{{ url_for('register') }}" class="btn-register">Register</a>
+    </div>
+    <footer>© 2026 CivicConnect. Built for Ghaziabad.</footer>
   </div>
 
   <script>
-    function redirectToHome() {
-      window.location.href = "index.html";
-    }
-
     const canvas = document.getElementById("bgCanvas");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
@@ -128,8 +127,7 @@
     });
 
     let particles = [];
-    const particleCount = 120;
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < 120; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -141,36 +139,31 @@
 
     function drawParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#00bcd4"; // teal particles
-
+      ctx.fillStyle = "#00bcd4";
       particles.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
-
         p.x += p.dx;
         p.y += p.dy;
-
         if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-
         if (mouse.x && mouse.y) {
           const dist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
           if (dist < 120) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / 120})`; // white connecting lines
+            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / 120})`;
             ctx.lineWidth = 1.2;
             ctx.stroke();
           }
         }
       });
-
       requestAnimationFrame(drawParticles);
     }
-
     drawParticles();
   </script>
 </body>
 </html>
+
