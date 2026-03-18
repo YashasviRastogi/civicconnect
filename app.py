@@ -92,15 +92,14 @@ def report_issue():
         db.session.commit()
         flash('Issue reported!')
         return redirect(url_for('dashboard'))
-    
+
     try:
         with open('localities.json', 'r') as f:
             localities_data = json.load(f)
     except:
         localities_data = {}
-    
-    return render_template('report.html', localities=LOCALITIES, localities_data=localities_data)
 
+    return render_template('report.html', localities=LOCALITIES, localities_data=localities_data)
 @app.route('/issue/<int:id>')
 @login_required
 def issue_detail(id):
