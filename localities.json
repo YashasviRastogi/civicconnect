@@ -1,50 +1,58 @@
 {
   "vaishali": {
-    "rwa": "Vaishali Sector RWA", 
+    "rwa": "Vaishali Sector RWA",
     "phone": "9876543210",
     "email": "rwa.vaishali@gmail.com",
-    "councillor": "Amit Kumar"
+    "councillor": "Amit Kumar",
+    "sub_areas": ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Sector 6"]
   },
   "indirapuram": {
-    "rwa": "Sapphire Heights RWA", 
+    "rwa": "Sapphire Heights RWA",
     "phone": "9812345678",
     "email": "sapphire.rwa@gmail.com",
-    "councillor": "Rajesh Sharma"
+    "councillor": "Rajesh Sharma",
+    "sub_areas": ["Abhay Khand 1", "Abhay Khand 2", "Niti Khand 1", "Niti Khand 2", "Shakti Khand 1", "Shakti Khand 2", "Gyan Khand 1", "Gyan Khand 2"]
   },
   "raj_nagar": {
-    "rwa": "Raj Nagar Extension RWA", 
+    "rwa": "Raj Nagar Extension RWA",
     "phone": "9876541230",
     "email": "rajnagar.rwa@gmail.com",
-    "councillor": "Priya Gupta"
+    "councillor": "Priya Gupta",
+    "sub_areas": ["Raj Nagar 1", "Raj Nagar 2", "Raj Nagar 3", "Raj Nagar Extension Part 1", "Raj Nagar Extension Part 2"]
   },
   "vasundhara": {
-    "rwa": "Vasundhara Enclave RWA", 
+    "rwa": "Vasundhara Enclave RWA",
     "phone": "9812341234",
     "email": "vasundhara.rwa@gmail.com",
-    "councillor": "Vikram Singh"
+    "councillor": "Vikram Singh",
+    "sub_areas": ["Sector 1", "Sector 2A", "Sector 2B", "Sector 3", "Sector 4", "Sector 5", "Sector 6A", "Sector 6B"]
   },
   "shipra_sun_city": {
-    "rwa": "Shipra Sun City RWA", 
+    "rwa": "Shipra Sun City RWA",
     "phone": "9871234567",
     "email": "shipra.rwa@gmail.com",
-    "councillor": "Neha Sharma"
+    "councillor": "Neha Sharma",
+    "sub_areas": ["Tower A", "Tower B", "Tower C", "Tower D", "Tower E", "Commercial Block"]
   },
   "ahinsa_khand": {
-    "rwa": "Ahinsa Khand RWA", 
+    "rwa": "Ahinsa Khand RWA",
     "phone": "9812348765",
     "email": "ahinsa.rwa@gmail.com",
-    "councillor": "Rohit Verma"
+    "councillor": "Rohit Verma",
+    "sub_areas": ["Ahinsa Khand 1", "Ahinsa Khand 2"]
   },
   "kaushambi": {
-    "rwa": "Kaushambi RWA", 
+    "rwa": "Kaushambi RWA",
     "phone": "9876548765",
     "email": "kaushambi.rwa@gmail.com",
-    "councillor": "Suman Lata"
+    "councillor": "Suman Lata",
+    "sub_areas": ["Block A", "Block B", "Block C", "Block D", "Block E", "Block F"]
   },
   "sector_62": {
-    "rwa": "Sector 62 RWA", 
+    "rwa": "Sector 62 RWA",
     "phone": "9811111111",
     "email": "sector62.rwa@gmail.com",
-    "councillor": "Arun Kumar"
+    "councillor": "Arun Kumar",
+    "sub_areas": ["Block A", "Block B", "Block C", "Block D", "Block E"]
   }
 }
