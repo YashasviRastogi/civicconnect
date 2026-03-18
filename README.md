@@ -92,5 +92,6 @@ REACT_APP_API_URL=http://localhost:5000/api
 - Frontend: Vercel/Netlify
 - Backend: Render/Heroku
 - Database: MongoDB Atlas
+- http://localhost:5000
 
 MIT License. Open issues for hackathon collabs or bugs.
