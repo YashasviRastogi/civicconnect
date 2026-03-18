@@ -187,6 +187,16 @@
                     <option value="">Select Sub-Area</option>
                 </select>
             </div>
+            <div class="form-group">
+    <label for="imageInput">Upload Image</label>
+    <input type="file" id="imageInput" accept="image/*">
+    <p id="locationOutput"></p>
+
+    <!-- hidden fields -->
+    <input type="hidden" id="lat" name="latitude">
+    <input type="hidden" id="lon" name="longitude">
+    </div>
+            
 
             <div class="form-group">
                 <label for="category">Category</label>
@@ -263,5 +273,47 @@
             });
         }
     </script>
+    </script>
+
+<!-- EXIF SCRIPT START -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+
+<script>
+document.getElementById("imageInput").onchange = function(e) {
+    let file = e.target.files[0];
+
+    EXIF.getData(file, function() {
+        let lat = EXIF.getTag(this, "GPSLatitude");
+        let lon = EXIF.getTag(this, "GPSLongitude");
+        let latRef = EXIF.getTag(this, "GPSLatitudeRef");
+        let lonRef = EXIF.getTag(this, "GPSLongitudeRef");
+
+        if (!lat || !lon) {
+            document.getElementById("locationOutput").innerText = "No GPS data found";
+            return;
+        }
+
+        function convertToDecimal(coord) {
+            return coord[0] + coord[1]/60 + coord[2]/3600;
+        }
+
+        let latitude = convertToDecimal(lat);
+        let longitude = convertToDecimal(lon);
+
+        if (latRef === "S") latitude = -latitude;
+        if (lonRef === "W") longitude = -longitude;
+
+        document.getElementById("locationOutput").innerText =
+            `Lat: ${latitude}, Lon: ${longitude}`;
+
+        document.getElementById("lat").value = latitude;
+        document.getElementById("lon").value = longitude;
+    });
+};
+</script>
+<!-- EXIF SCRIPT END -->
+
+</body>
+</html>
 </body>
 </html>
