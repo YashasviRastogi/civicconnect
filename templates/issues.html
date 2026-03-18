@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CivicConnect – Admin Issues</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            z-index: 1000;
+        }
+
+        .nav-left.logo {
+            font-weight: 700;
+            color: #0078D4;
+        }
+
+        .nav-center {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-center ul {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+        }
+
+        .nav-center ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-center ul li a:hover {
+            color: #0078D4;
+        }
+
+        .emoji-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Page Header */
+        header.page-header {
+            margin-top: 80px;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0078D4, #00B4D8, #0096c7);
+            color: white;
+        }
+
+        header.page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        /* Form Container */
+        .issue-form {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
+
+        .issue-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #0078D4;
+            font-size: 2rem;
+        }
+
+        #map {
+            width: calc(100% - 2rem);
+            margin: 0 1rem;
+            border: 1px solid #ccc;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 2rem);
+            margin: 0 1rem;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #fdfdfd;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0078D4;
+            background: #fff;
+            box-shadow: 0 0 6px rgba(0, 120, 212, 0.3);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .priority-options {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .priority-options label {
+            font-weight: 600;
+            cursor: pointer;
+            color: #0078D4;
+        }
+
+        .submit-btn {
+            width: calc(100% - 2rem);
+            margin: 0 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0078D4, #00B4D8);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #005fa3, #0096c7);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-left logo">CiviConnect</div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="issues.html">Issues</a></li>
+                <li><a href="report.html">Report Issue</a></li>
+                <li><a href="hallofshame.html">Hall of Shame</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="emoji-icon" id="emoji" title="Admin Panel">⚙️</div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>Admin – Issue Details</h1>
+    </header>
+    <!-- Issue Form Section -->
+    <section id="issue-section">
+        <div class="issue-form">
+            <h2>Report an Issue</h2>
+            <form id="admin-issue-form">
+
+                <!-- Issue Category -->
+                <div class="form-group">
+                    <label for="category">Issue Category *</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="road">Road</option>
+                        <option value="electricity">Electricity</option>
+                        <option value="water">Water</option>
+                        <option value="sanitation">Sanitation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label for="location">Location *</label>
+                    <input type="text" id="location" name="location" placeholder="Street address or landmark" required>
+
+                    <!-- Map Selection -->
+                    <div id="map"
+                        style="height: 300px; margin: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+
+
+                <!-- Priority Level -->
+                <div class="form-group">
+                    <label>Priority Level *</label>
+                    <div class="priority-options">
+                        <label>
+                            <input type="radio" name="priority" value="3 days" required> 3 Days
+                        </label>
+                        <label>
+                            <input type="radio" name="priority" value="7 days"> 7 Days
+                        </label>
+                        <label>
+                            <input type="radio" name="priority" value="10 days"> 10 Days
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Detailed Description -->
+                <div class="form-group">
+                    <label for="description">Detailed Description *</label>
+                    <textarea id="description" name="description" placeholder="Describe the issue in detail..."
+                        required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Submit Issue</button>
+            </form>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <h3>CivicConnect</h3>
+            <p>Admin Issue Management Panel</p>
+            <ul class="footer-links">
+                <li><a href="issues.html">Issues</a></li>
+                <li><a href="report.html">Report Issue</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+            </ul>
+            <p class="footer-copy">&copy; 2026 CivicConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([28.6139, 77.2090], 12); // Default: New Delhi
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Marker for selected location
+        let marker;
+
+        // On map click, set marker and update location input
+        map.on('click', function (e) {
+            const { lat, lng } = e.latlng;
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+
+            // Update location field with coordinates
+            document.getElementById('location').value = `Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`;
+        });
+        // Emoji hover effect
+        const emoji = document.getElementById("emoji");
+        if (emoji) {
+            emoji.addEventListener("mouseover", () => {
+                emoji.textContent = "🔧";
+                emoji.style.transform = "scale(1.2)";
+            });
+            emoji.addEventListener("mouseout", () => {
+                emoji.textContent = "⚙️";
+                emoji.style.transform = "scale(1)";
+            });
+        }
+
+        // Issue form submission logic
+        const issueForm = document.getElementById("admin-issue-form");
+        issueForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Create confirmation popup
+            const popup = document.createElement("div");
+            popup.style.position = "fixed";
+            popup.style.top = "50%";
+            popup.style.left = "50%";
+            popup.style.transform = "translate(-50%, -50%)";
+            popup.style.background = "#fff";
+            popup.style.padding = "2rem";
+            popup.style.borderRadius = "12px";
+            popup.style.boxShadow = "0 6px 18px rgba(0,0,0,0.2)";
+            popup.style.textAlign = "center";
+            popup.style.zIndex = "2000";
+            popup.style.animation = "fadeIn 0.5s ease forwards";
+
+            popup.innerHTML = `
+        <h3 style="color:#0078D4; margin-bottom:1rem;">Issue Submitted!</h3>
+        <p>Your issue has been recorded successfully.</p>
+        <button style="margin-top:1rem; padding:0.6rem 1.2rem; background:#0078D4; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+          Close
+        </button>
+      `;
+
+            document.body.appendChild(popup);
+
+            // Close button logic
+            popup.querySelector("button").addEventListener("click", () => {
+                popup.remove();
+                issueForm.reset();
+            });
+        });
+
+        // Popup fade-in animation
+        const style = document.createElement("style");
+        style.innerHTML = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -60%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+      }
+    `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>
