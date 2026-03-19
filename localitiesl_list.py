@@ -6,3 +6,4 @@ LOCALITIES_LIST = [
 
 # Tell frontend teams to use: {{ localities }} from backend
 print("Localities ready for dropdowns!")
+  
