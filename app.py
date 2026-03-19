@@ -137,6 +137,11 @@ def issue_detail(id):
     issue = Issue.query.get_or_404(id)
     return render_template('issue_detail.html', issue=issue)
 
+@app.route('/issues')
+@login_required
+def issues():
+    issues_list = Issue.query.order_by(Issue.created_at.desc()).all()
+    return render_template('issues.html', issues=issues_list, localities=LOCALITIES)
 
 @app.route('/hall_of_shame')
 def hall_of_shame():
