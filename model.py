@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
- 
+
 db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
@@ -24,8 +24,9 @@ class Issue(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
     category = db.Column(db.String(50), nullable=False)
-    locality = db.Column(db.String(100), nullable=False)  # Vaishali, Indirapuram
-    status = db.Column(db.String(50), default='Reported')  # Reported, Verified, In Progress, Resolved
+    locality = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(50), default='Reported')
+    image_filename = db.Column(db.String(200), nullable=True)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
