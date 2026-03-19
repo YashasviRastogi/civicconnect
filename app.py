@@ -81,11 +81,22 @@ def dashboard():
 @login_required
 def report_issue():
     if request.method == 'POST':
+        image_filename = None
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and file.filename != '':
+                import uuid
+                ext = file.filename.rsplit('.', 1)[1].lower()
+                image_filename = f"{uuid.uuid4().hex}.{ext}"
+                os.makedirs('static/uploads', exist_ok=True)
+                file.save(os.path.join('static/uploads', image_filename))
+
         issue = Issue(
             title=request.form['title'],
             description=request.form['description'],
             category=request.form['category'],
             locality=request.form['locality'],
+            image_filename=image_filename,
             created_by=current_user.id
         )
         db.session.add(issue)
@@ -100,12 +111,6 @@ def report_issue():
         localities_data = {}
 
     return render_template('report.html', localities=LOCALITIES, localities_data=localities_data)
-@app.route('/issue/<int:id>')
-@login_required
-def issue_detail(id):
-    issue = Issue.query.get_or_404(id)
-    return render_template('issue_detail.html', issue=issue)
-
 @app.route('/admin')
 @login_required
 def admin():
@@ -126,11 +131,11 @@ def update_status(id):
     db.session.commit()
     return jsonify({'success': True, 'status': issue.status})
 
-@app.route('/issues')
+@app.route('/issue/<int:id>')
 @login_required
-def issues():
-    issues_list = Issue.query.order_by(Issue.created_at.desc()).all()
-    return render_template('issues.html', issues=issues_list, localities=LOCALITIES)
+def issue_detail(id):
+    issue = Issue.query.get_or_404(id)
+    return render_template('issue_detail.html', issue=issue)
 
 
 @app.route('/hall_of_shame')
